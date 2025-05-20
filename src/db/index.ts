@@ -40,22 +40,32 @@ export const initDB = async (): Promise<IDBPDatabase<SetDoneDB>> => {
   });
 };
 
-export const db = await initDB();
+let dbInstance: IDBPDatabase<SetDoneDB> | null = null;
+
+export const getDB = async (): Promise<IDBPDatabase<SetDoneDB>> => {
+  if (!dbInstance) {
+    dbInstance = await initDB();
+  }
+  return dbInstance;
+};
 
 // Exercise operations
 export const addExercise = async (
   exercise: SetDoneDB["exercises"]["value"]
 ) => {
+  const db = await getDB();
   return db.add("exercises", exercise);
 };
 
 export const upsertExercise = async (
   exercise: SetDoneDB["exercises"]["value"]
 ) => {
+  const db = await getDB();
   return db.put("exercises", exercise);
 };
 
 export const getExercises = async () => {
+  const db = await getDB();
   return db.getAll("exercises");
 };
 
@@ -63,17 +73,21 @@ export const getExercises = async () => {
 export const saveWorkoutLog = async (
   log: SetDoneDB["workoutLogs"]["value"]
 ) => {
+  const db = await getDB();
   return db.put("workoutLogs", log);
 };
 
 export const getWorkoutLog = async (date: string) => {
+  const db = await getDB();
   return db.get("workoutLogs", date);
 };
 
 export const getAllWorkoutLogs = async () => {
+  const db = await getDB();
   return db.getAll("workoutLogs");
 };
 
 export const deleteWorkoutLog = async (date: string) => {
+  const db = await getDB();
   return db.delete("workoutLogs", date);
 };
