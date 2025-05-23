@@ -72,26 +72,21 @@ AddExerciseWidgetProps) {
   }, []);
 
   const exerciseCards = useMemo(() => {
-    return userExercises
-      .filter(
-        (exercise): exercise is typeof exercise & { icon: string } =>
-          exercise.icon !== undefined && exercise.icon !== null
-      )
-      .map((exercise) => (
-        <ExerciseCard
-          key={exercise.id}
-          name={exercise.name}
-          icon={exercise.icon}
-          iconSvg={exercise.iconSvg}
-          type={exercise.type}
-          isSelected={selectedExercise === exercise.id}
-          value={tempValue}
-          onValueChange={handleValueChange}
-          onAdd={() => handleAddExercise(exercise.id)}
-          isSaving={savingExercise === exercise.id}
-          onClick={() => handleExerciseSelect(exercise.id)}
-        />
-      ));
+    return userExercises.map((exercise) => (
+      <ExerciseCard
+        key={exercise.id}
+        name={exercise.name}
+        icon={exercise.icon}
+        iconSvg={exercise.iconSvg}
+        type={exercise.type}
+        isSelected={selectedExercise === exercise.id}
+        value={tempValue}
+        onValueChange={handleValueChange}
+        onAdd={() => handleAddExercise(exercise.id)}
+        isSaving={savingExercise === exercise.id}
+        onClick={() => handleExerciseSelect(exercise.id)}
+      />
+    ));
   }, [
     userExercises,
     selectedExercise,

@@ -40,16 +40,13 @@ export function ExerciseCard({
             <img
               src={`data:image/svg+xml;utf8,${encodeURIComponent(iconSvg)}`}
               alt={`${name} icon`}
-              className="w-8 h-8"
+              className="w-32 h-32"
             />
           ) : icon ? (
             <span className="text-2xl">{icon}</span>
           ) : null}
           <div>
             <h3 className="font-medium">{name}</h3>
-            <p className="text-sm text-gray-500">
-              Type: {type === "reps" ? "Repetitions" : "Time"}
-            </p>
           </div>
         </div>
 
