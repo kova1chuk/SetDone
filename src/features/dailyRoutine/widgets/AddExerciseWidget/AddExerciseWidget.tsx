@@ -81,6 +81,7 @@ AddExerciseWidgetProps) {
           key={exercise.id}
           name={exercise.name}
           icon={exercise.icon}
+          iconSvg={exercise.iconSvg}
           type={exercise.type}
           isSelected={selectedExercise === exercise.id}
           value={tempValue}

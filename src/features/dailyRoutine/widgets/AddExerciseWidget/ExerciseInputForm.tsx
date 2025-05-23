@@ -23,7 +23,17 @@ export function ExerciseInputForm({
     <div className="mt-4 bg-white p-4 rounded-lg shadow">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <span className="text-2xl">{exercise.icon}</span>
+          {exercise.iconSvg ? (
+            <img
+              src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                exercise.iconSvg
+              )}`}
+              alt={`${exercise.name} icon`}
+              className="w-8 h-8"
+            />
+          ) : exercise.icon ? (
+            <span className="text-2xl">{exercise.icon}</span>
+          ) : null}
           <div>
             <h3 className="font-medium">{exercise.name}</h3>
             <p className="text-sm text-gray-500">
