@@ -52,7 +52,7 @@ export function ExerciseCard({
 
         {isSelected && (
           <div className="space-y-0 mt-4">
-            <div className="flex gap-3 items-center justify-center md:justify-end">
+            <div className="flex gap-3 items-center justify-center">
               <button
                 onClick={(e) => {
                   e.stopPropagation();

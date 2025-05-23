@@ -1,4 +1,10 @@
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import { create } from "zustand";
 
 import { getExercises as getLocalExercises, upsertExercise } from "../db";
@@ -178,7 +184,7 @@ export const useExerciseStore = create<ExerciseStore>((set) => ({
       if (!user) throw new Error("Not authenticated");
       const colRef = collection(db, "users", user.uid, "exercises");
       const docRef = doc(colRef, exerciseId);
-      await setDoc(docRef, {}, { merge: false }); // Remove the document
+      await deleteDoc(docRef);
       set((state) => ({
         userExercises: state.userExercises.filter((ex) => ex.id !== exerciseId),
         isLoading: false,
