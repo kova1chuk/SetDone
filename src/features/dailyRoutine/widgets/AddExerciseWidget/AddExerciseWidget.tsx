@@ -1,6 +1,7 @@
-import { useState, useCallback, useMemo } from "react";
-import { useExerciseStore } from "../../../../stores/exerciseStore";
 import { DateTime } from "luxon";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useShallow } from "zustand/shallow";
+import { useExerciseStore } from "../../../../stores/exerciseStore";
 import { useWorkoutLogStore } from "../../../../stores/workoutLogStore";
 import { ExerciseCard } from "./ExerciseCard";
 import type { ExerciseInput } from "./types";
@@ -14,7 +15,9 @@ export default function AddExerciseWidget({
   exerciseInputs,
 }: // onExerciseAdded,
 AddExerciseWidgetProps) {
-  const { userExercises } = useExerciseStore();
+  const { userExercises, fetchUserExercises } = useExerciseStore(
+    useShallow((state) => state)
+  );
   const { saveLog } = useWorkoutLogStore();
   const [selectedExercise, setSelectedExercise] = useState<string | null>(null);
   const [tempValue, setTempValue] = useState<number>(0);
@@ -23,6 +26,10 @@ AddExerciseWidgetProps) {
   const handleExerciseSelect = useCallback((exerciseId: string) => {
     setSelectedExercise(exerciseId);
     setTempValue(0);
+  }, []);
+
+  useEffect(() => {
+    fetchUserExercises();
   }, []);
 
   const handleAddExercise = useCallback(

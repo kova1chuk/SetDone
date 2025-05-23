@@ -1,23 +1,23 @@
-import "./firebase";
-import { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useExerciseStore } from "./stores/exerciseStore";
-import { useWorkoutLogStore } from "./stores/workoutLogStore";
-import { useAuthStore } from "./stores/authStore";
 import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import "./App.css";
+import { Header } from "./components/Header";
+import { Navigation } from "./components/Navigation";
+import "./firebase";
 import { auth } from "./firebase";
-import ExerciseLibraryPage from "./pages/ExerciseLibraryPage";
 import DailyRoutinePage from "./pages/DailyRoutinePage";
+import ExerciseLibraryPage from "./pages/ExerciseLibraryPage";
 import HistoryPage from "./pages/HistoryPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
-import { Header } from "./components/Header";
-import { Navigation } from "./components/Navigation";
-import "./App.css";
+import { useAuthStore } from "./stores/authStore";
+import { useExerciseStore } from "./stores/exerciseStore";
+import { useWorkoutLogStore } from "./stores/workoutLogStore";
 // import { uploadExercises } from "./data/exercises";
 
 function App() {
-  const { fetchExercisesLib, fetchUserExercises } = useExerciseStore();
+  const { fetchExercisesLib } = useExerciseStore();
   const { fetchAllLogs } = useWorkoutLogStore();
   const { user, setUser } = useAuthStore();
 
@@ -31,9 +31,8 @@ function App() {
 
   useEffect(() => {
     fetchExercisesLib();
-    fetchUserExercises();
     fetchAllLogs();
-  }, [fetchExercisesLib, fetchUserExercises, fetchAllLogs]);
+  }, [fetchExercisesLib, fetchAllLogs]);
 
   return (
     <Router>

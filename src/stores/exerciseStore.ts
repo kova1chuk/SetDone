@@ -1,9 +1,9 @@
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { create } from "zustand";
-import { db } from "../firebase";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
-import { useAuthStore } from "./authStore";
 import { getExercises as getLocalExercises, upsertExercise } from "../db";
 import { clearLocalDb } from "../db/clearLocalDb";
+import { db } from "../firebase";
+import { useAuthStore } from "./authStore";
 
 export interface Exercise {
   id: string;
