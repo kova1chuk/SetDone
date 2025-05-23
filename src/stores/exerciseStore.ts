@@ -19,6 +19,12 @@ export interface Exercise {
   icon?: string;
   iconSvg?: string;
   isRecommended?: boolean;
+  bodyPart?: string;
+  equipment?: string;
+  badges?: string[];
+  difficulty?: number;
+  description?: string;
+  favorite?: boolean;
 }
 
 interface ExerciseStore {
@@ -31,6 +37,7 @@ interface ExerciseStore {
   addUserExercise: (exercise: Exercise) => Promise<void>;
   addLibExerciseToUser: (exercise: Exercise) => Promise<void>;
   removeUserExercise: (exerciseId: string) => Promise<void>;
+  toggleFavoriteExercise: (exerciseId: string) => Promise<void>;
   reset: () => void;
 }
 
@@ -193,6 +200,35 @@ export const useExerciseStore = create<ExerciseStore>((set) => ({
       set({
         error:
           err instanceof Error ? err.message : "Failed to remove user exercise",
+        isLoading: false,
+      });
+    }
+  },
+  toggleFavoriteExercise: async (exerciseId) => {
+    set({ isLoading: true, error: null });
+    try {
+      const user = useAuthStore.getState().user;
+      if (!user) throw new Error("Not authenticated");
+      const colRef = collection(db, "users", user.uid, "exercises");
+      const docRef = doc(colRef, exerciseId);
+      // Find current favorite value
+      let currentFavorite = false;
+      set((state) => {
+        const ex = state.userExercises.find((e) => e.id === exerciseId);
+        if (ex && ex.favorite) currentFavorite = true;
+        return {};
+      });
+      // Toggle favorite
+      await setDoc(docRef, { favorite: !currentFavorite }, { merge: true });
+      set((state) => ({
+        userExercises: state.userExercises.map((ex) =>
+          ex.id === exerciseId ? { ...ex, favorite: !currentFavorite } : ex
+        ),
+        isLoading: false,
+      }));
+    } catch (err) {
+      set({
+        error: err instanceof Error ? err.message : "Failed to toggle favorite",
         isLoading: false,
       });
     }

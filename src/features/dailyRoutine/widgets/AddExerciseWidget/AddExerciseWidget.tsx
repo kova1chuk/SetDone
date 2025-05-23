@@ -16,33 +16,34 @@ export default function AddExerciseWidget({
   exerciseInputs,
 }: // onExerciseAdded,
 AddExerciseWidgetProps) {
-  const { userExercises, fetchUserExercises } = useExerciseStore(
-    useShallow((state) => state)
-  );
+  const { userExercises, fetchUserExercises, toggleFavoriteExercise } =
+    useExerciseStore(useShallow((state) => state));
   const { saveLog } = useWorkoutLogStore();
-  const [selectedExercise, setSelectedExercise] = useState<string | null>(null);
-  const [tempValue, setTempValue] = useState<number>(0);
+  const [inputValues, setInputValues] = useState<{
+    [exerciseId: string]: number;
+  }>({});
   const [savingExercise, setSavingExercise] = useState<string | null>(null);
-
-  const handleExerciseSelect = useCallback((exerciseId: string) => {
-    setSelectedExercise(exerciseId);
-    setTempValue(0);
-  }, []);
+  const [showFavoritesFirst, setShowFavoritesFirst] = useState(true);
 
   useEffect(() => {
     fetchUserExercises();
   }, [fetchUserExercises]);
 
+  const handleValueChange = useCallback((exerciseId: string, value: number) => {
+    setInputValues((prev) => ({ ...prev, [exerciseId]: value }));
+  }, []);
+
   const handleAddExercise = useCallback(
     async (exerciseId: string) => {
-      if (tempValue <= 0) return;
+      const value = inputValues[exerciseId] || 0;
+      if (value <= 0) return;
 
       const exercise = userExercises.find((e) => e.id === exerciseId);
       if (!exercise) return;
 
       const newInput: ExerciseInput = {
         exerciseId,
-        value: tempValue,
+        value,
         unit: exercise.type === "reps" ? "reps" : "seconds",
       };
 
@@ -55,51 +56,66 @@ AddExerciseWidgetProps) {
           date: today,
           exercises: updatedInputs,
         });
-
-        setSelectedExercise(null);
-        setTempValue(0);
+        setInputValues((prev) => ({ ...prev, [exerciseId]: 0 }));
       } catch (error) {
         console.error("Failed to save exercise:", error);
       } finally {
         setSavingExercise(null);
       }
     },
-    [tempValue, userExercises, exerciseInputs, saveLog]
+    [inputValues, userExercises, exerciseInputs, saveLog]
   );
 
-  const handleValueChange = useCallback((value: number) => {
-    setTempValue(value);
-  }, []);
-
   const exerciseCards = useMemo(() => {
-    return userExercises.map((exercise) => (
+    const sortedExercises = [...userExercises].sort((a, b) => {
+      if (showFavoritesFirst) {
+        if (a.favorite && !b.favorite) return -1;
+        if (!a.favorite && b.favorite) return 1;
+      }
+      return a.name.localeCompare(b.name);
+    });
+
+    return sortedExercises.map((exercise) => (
       <ExerciseCard
         key={exercise.id}
         name={exercise.name}
         icon={exercise.icon}
         iconSvg={exercise.iconSvg}
         type={exercise.type}
-        isSelected={selectedExercise === exercise.id}
-        value={tempValue}
-        onValueChange={handleValueChange}
+        value={inputValues[exercise.id] || 0}
+        onValueChange={(value) => handleValueChange(exercise.id, value)}
         onAdd={() => handleAddExercise(exercise.id)}
         isSaving={savingExercise === exercise.id}
-        onClick={() => handleExerciseSelect(exercise.id)}
+        favorite={exercise.favorite}
+        onToggleFavorite={() => toggleFavoriteExercise(exercise.id)}
       />
     ));
   }, [
     userExercises,
-    selectedExercise,
-    tempValue,
+    inputValues,
     savingExercise,
     handleValueChange,
     handleAddExercise,
-    handleExerciseSelect,
+    showFavoritesFirst,
+    toggleFavoriteExercise,
   ]);
 
   return (
     <div className="space-y-6 bg-gray-50 p-6 rounded-lg border border-gray-200">
-      <h3 className="text-xl font-semibold text-gray-800">Add Exercise</h3>
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-semibold text-gray-800">Add Exercise</h3>
+        <button
+          onClick={() => setShowFavoritesFirst(!showFavoritesFirst)}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+            showFavoritesFirst
+              ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
+              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+          }`}
+        >
+          <span className="text-xl">{showFavoritesFirst ? "★" : "☆"}</span>
+          <span>Show Favorites First</span>
+        </button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {exerciseCards}
       </div>

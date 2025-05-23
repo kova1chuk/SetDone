@@ -38,9 +38,9 @@ export function ExerciseCardDone({
         ) : exercise.icon ? (
           <span className="text-4xl">{exercise.icon}</span>
         ) : null}
-        <div className="flex items-end justify-center space-x-2">
+        <div className="flex items-center justify-center gap-2">
           <h3 className="font-medium text-lg">{exercise.name}</h3>
-          <p className="text-sm text-gray-500 mb-1">({input.unit})</p>
+          <p className="text-sm text-gray-500">({input.unit})</p>
         </div>
         {summary && (
           <div className="text-center">
