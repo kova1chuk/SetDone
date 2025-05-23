@@ -4,7 +4,6 @@ import { useWorkoutLogStore } from "../stores/workoutLogStore";
 import { DateTime } from "luxon";
 import AlreadyDoneWidget from "../features/dailyRoutine/widgets/AlreadyDoneWidget";
 import AddExerciseWidget from "../features/dailyRoutine/widgets/AddExerciseWidget";
-import ExerciseHistoryWidget from "../features/dailyRoutine/widgets/ExerciseHistoryWidget";
 
 interface ExerciseInput {
   exerciseId: string;
@@ -87,21 +86,12 @@ export default function DailyRoutinePage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Today's Workout</h2>
-      </div>
-
       <AlreadyDoneWidget
         exerciseInputs={exerciseInputs}
         exerciseSummaries={exerciseSummaries}
       />
 
-      <AddExerciseWidget
-        exerciseInputs={exerciseInputs}
-        // onExerciseAdded={() => {}} // Empty callback since we're using saveLog for state updates
-      />
-
-      <ExerciseHistoryWidget />
+      <AddExerciseWidget exerciseInputs={exerciseInputs} />
     </div>
   );
 }
