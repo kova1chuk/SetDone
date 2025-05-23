@@ -44,6 +44,8 @@ export default function AlreadyDoneWidget({
       .values()
   );
 
+  console.log(exerciseInputs, groupedInputs);
+
   return (
     <div className="space-y-4">
       {/* <h3 className="text-xl font-semibold text-gray-800">Already Done</h3> */}

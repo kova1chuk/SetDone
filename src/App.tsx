@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useExerciseStore } from "./stores/exerciseStore";
 import { useWorkoutLogStore } from "./stores/workoutLogStore";
 import { useAuthStore } from "./stores/authStore";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 import ExerciseLibraryPage from "./pages/ExerciseLibraryPage";
 import DailyRoutinePage from "./pages/DailyRoutinePage";
 import HistoryPage from "./pages/HistoryPage";
@@ -17,7 +19,15 @@ import "./App.css";
 function App() {
   const { fetchExercisesLib, fetchUserExercises } = useExerciseStore();
   const { fetchAllLogs } = useWorkoutLogStore();
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, [setUser]);
 
   useEffect(() => {
     fetchExercisesLib();
