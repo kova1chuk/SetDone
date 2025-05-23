@@ -30,8 +30,8 @@ export function ExerciseCard({
   return (
     <div
       onClick={onClick}
-      className={`bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer ${
-        isSelected ? "ring-2 ring-blue-500" : ""
+      className={`bg-white px-5 py-4 rounded-xl shadow hover:shadow-md transition-shadow cursor-pointer ${
+        isSelected ? "ring-2 ring-blue-500 bg-blue-50" : ""
       }`}
     >
       <div className="flex flex-col space-y-4">
@@ -54,14 +54,14 @@ export function ExerciseCard({
         </div>
 
         {isSelected && (
-          <div className="space-y-4">
-            <div className="flex flex-wrap gap-2 justify-center md:justify-end">
+          <div className="space-y-0 mt-4">
+            <div className="flex gap-3 items-center justify-center md:justify-end">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   handleIncrement(-1);
                 }}
-                className="px-3 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 text-lg"
+                className="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-lg transition-colors"
                 disabled={isSaving}
               >
                 -1
@@ -71,7 +71,7 @@ export function ExerciseCard({
                   e.stopPropagation();
                   handleIncrement(1);
                 }}
-                className="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 text-lg"
+                className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-lg transition-colors"
                 disabled={isSaving}
               >
                 +1
@@ -81,7 +81,7 @@ export function ExerciseCard({
                   e.stopPropagation();
                   handleIncrement(5);
                 }}
-                className="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 text-lg"
+                className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-lg transition-colors"
                 disabled={isSaving}
               >
                 +5
@@ -91,22 +91,23 @@ export function ExerciseCard({
                   e.stopPropagation();
                   handleIncrement(10);
                 }}
-                className="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 text-lg"
+                className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-lg transition-colors"
                 disabled={isSaving}
               >
                 +10
               </button>
             </div>
-            <div className="flex items-center justify-center md:justify-end space-x-2 w-[calc(100%-0.5rem)] md:w-auto">
+            <div className="flex gap-3 items-center justify-center md:justify-end mt-3">
               <input
                 type="number"
                 min="0"
                 value={value || ""}
                 placeholder={type === "reps" ? "reps" : "sec"}
                 onChange={(e) => onValueChange(parseInt(e.target.value) || 0)}
-                className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+                className="min-w-[80px] px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg text-center"
                 disabled={isSaving}
                 onClick={(e) => e.stopPropagation()}
+                onFocus={(e) => e.target.select()}
               />
               <button
                 onClick={(e) => {
@@ -114,7 +115,7 @@ export function ExerciseCard({
                   onAdd();
                 }}
                 disabled={value <= 0 || isSaving}
-                className="flex-1 md:flex-none bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                className="flex-1 md:flex-none bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg font-medium"
               >
                 {isSaving ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>

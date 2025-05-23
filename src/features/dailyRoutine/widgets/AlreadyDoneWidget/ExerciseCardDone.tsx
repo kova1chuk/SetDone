@@ -25,7 +25,7 @@ export function ExerciseCardDone({
   summary,
 }: ExerciseCardDoneProps) {
   return (
-    <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+    <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow border border-green-100 cursor-pointer">
       <div className="flex flex-col items-center text-center space-y-2">
         {exercise.iconSvg ? (
           <img
@@ -44,7 +44,7 @@ export function ExerciseCardDone({
         </div>
         {summary && (
           <div className="text-center">
-            <p className="text-3xl font-bold text-blue-600">{input.value}</p>
+            <p className="text-3xl font-bold text-green-600">{input.value}</p>
           </div>
         )}
       </div>

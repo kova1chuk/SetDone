@@ -1,9 +1,9 @@
-import { useEffect, useState, useMemo } from "react";
+import { DateTime } from "luxon";
+import { useEffect, useMemo, useState } from "react";
+import AddExerciseWidget from "../features/dailyRoutine/widgets/AddExerciseWidget";
+import AlreadyDoneWidget from "../features/dailyRoutine/widgets/AlreadyDoneWidget";
 import { useExerciseStore } from "../stores/exerciseStore";
 import { useWorkoutLogStore } from "../stores/workoutLogStore";
-import { DateTime } from "luxon";
-import AlreadyDoneWidget from "../features/dailyRoutine/widgets/AlreadyDoneWidget";
-import AddExerciseWidget from "../features/dailyRoutine/widgets/AddExerciseWidget";
 
 interface ExerciseInput {
   exerciseId: string;
@@ -85,7 +85,14 @@ export default function DailyRoutinePage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold text-gray-900">Today's Workout</h2>
+        <p className="text-gray-600">
+          Stay consistent. Log your progress below.
+        </p>
+      </div>
+
       <AlreadyDoneWidget
         exerciseInputs={exerciseInputs}
         exerciseSummaries={exerciseSummaries}
