@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+
 import { useExerciseStore } from "../../../../stores/exerciseStore";
 import { ExerciseCardDone } from "./ExerciseCardDone";
 

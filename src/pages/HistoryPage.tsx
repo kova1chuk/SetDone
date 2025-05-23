@@ -1,8 +1,9 @@
+import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
-import { DateTime } from "luxon";
-import { useWorkoutLogStore } from "../stores/workoutLogStore";
+
 import { useExerciseStore } from "../stores/exerciseStore";
+import { useWorkoutLogStore } from "../stores/workoutLogStore";
 
 export default function HistoryPage() {
   const { logs, isLoading, fetchAllLogs, clearLogByDate } =

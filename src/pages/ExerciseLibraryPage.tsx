@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+
 import { useExerciseStore } from "../stores/exerciseStore";
 
 export default function ExerciseLibraryPage() {

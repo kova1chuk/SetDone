@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useShallow } from "zustand/shallow";
+
 import { useExerciseStore } from "../../../../stores/exerciseStore";
 import { useWorkoutLogStore } from "../../../../stores/workoutLogStore";
 import { ExerciseCard } from "./ExerciseCard";
@@ -30,7 +31,7 @@ AddExerciseWidgetProps) {
 
   useEffect(() => {
     fetchUserExercises();
-  }, []);
+  }, [fetchUserExercises]);
 
   const handleAddExercise = useCallback(
     async (exerciseId: string) => {

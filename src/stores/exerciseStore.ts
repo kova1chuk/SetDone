@@ -1,5 +1,6 @@
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { create } from "zustand";
+
 import { getExercises as getLocalExercises, upsertExercise } from "../db";
 import { clearLocalDb } from "../db/clearLocalDb";
 import { db } from "../firebase";

@@ -1,10 +1,11 @@
+import "./App.css";
+
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import { Header } from "./components/Header";
 import { Navigation } from "./components/Navigation";
-import "./firebase";
 import { auth } from "./firebase";
 import DailyRoutinePage from "./pages/DailyRoutinePage";
 import ExerciseLibraryPage from "./pages/ExerciseLibraryPage";

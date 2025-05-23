@@ -1,12 +1,13 @@
-import { create } from "zustand";
 import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut as fbSignOut,
   type User,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { create } from "zustand";
+
 import { clearLocalDb } from "../db/clearLocalDb";
+import { auth } from "../firebase";
 
 interface AuthStore {
   user: User | null;

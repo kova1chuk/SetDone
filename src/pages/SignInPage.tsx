@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { useAuthStore } from "../stores/authStore";
 import { useNavigate } from "react-router-dom";
+
+import { useAuthStore } from "../stores/authStore";
 
 export default function SignInPage() {
   const { user, loading, error, signInWithGoogle } = useAuthStore();

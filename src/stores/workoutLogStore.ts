@@ -1,21 +1,22 @@
-import { create } from "zustand";
-import { db } from "../firebase";
 import {
   collection,
-  getDocs,
-  setDoc,
+  deleteDoc,
   doc,
   getDoc,
-  deleteDoc,
+  getDocs,
+  setDoc,
 } from "firebase/firestore";
-import { useAuthStore } from "./authStore";
+import { create } from "zustand";
+
 import {
-  saveWorkoutLog as saveLocalWorkoutLog,
-  getWorkoutLog as getLocalWorkoutLog,
-  getAllWorkoutLogs as getAllLocalWorkoutLogs,
   deleteWorkoutLog as deleteLocalWorkoutLog,
+  getAllWorkoutLogs as getAllLocalWorkoutLogs,
+  getWorkoutLog as getLocalWorkoutLog,
+  saveWorkoutLog as saveLocalWorkoutLog,
 } from "../db";
 import { clearLocalDb } from "../db/clearLocalDb";
+import { db } from "../firebase";
+import { useAuthStore } from "./authStore";
 
 interface WorkoutExercise {
   exerciseId: string;
