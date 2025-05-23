@@ -73,7 +73,7 @@ export function ExerciseCard({
                 +10
               </button>
             </div>
-            <div className="flex items-center justify-center md:justify-end space-x-2">
+            <div className="flex items-center justify-center md:justify-end space-x-2 w-[calc(100%-0.5rem)] md:w-auto">
               <input
                 type="number"
                 min="0"
@@ -86,7 +86,7 @@ export function ExerciseCard({
               <button
                 onClick={onAdd}
                 disabled={value <= 0 || isSaving}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                className="flex-1 md:flex-none bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg"
               >
                 {isSaving ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
