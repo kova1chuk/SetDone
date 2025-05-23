@@ -33,7 +33,7 @@ export function ExerciseCard({
       onClick={onClick}
     >
       <div className="flex flex-col md:flex-row md:justify-between gap-4">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center justify-center md:justify-start space-x-4">
           <span className="text-4xl">{icon}</span>
           <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
         </div>
