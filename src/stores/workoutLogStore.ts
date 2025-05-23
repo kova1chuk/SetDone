@@ -118,7 +118,8 @@ export const useWorkoutLogStore = create<WorkoutLogStore>((set) => ({
       await saveLocalWorkoutLog(log);
       set((state) => ({
         logs: { ...state.logs, [log.date]: log },
-        currentLog: log,
+        currentLog:
+          log.date === state.currentLog?.date ? log : state.currentLog,
         isLoading: false,
       }));
     } catch (err) {

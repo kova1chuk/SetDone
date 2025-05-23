@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useExerciseStore } from "../stores/exerciseStore";
 import { useWorkoutLogStore } from "../stores/workoutLogStore";
 import { DateTime } from "luxon";
@@ -50,7 +50,7 @@ export default function DailyRoutinePage() {
     }
   }, [currentLog, userExercises]);
 
-  const getExerciseSummaries = (): ExerciseSummary[] => {
+  const exerciseSummaries = useMemo(() => {
     const summaries: Record<string, ExerciseSummary> = {};
 
     Object.values(logs).forEach((log) => {
@@ -75,7 +75,7 @@ export default function DailyRoutinePage() {
     });
 
     return Object.values(summaries);
-  };
+  }, [logs, userExercises]);
 
   if (exercisesLoading || logLoading) {
     return (
@@ -84,8 +84,6 @@ export default function DailyRoutinePage() {
       </div>
     );
   }
-
-  const exerciseSummaries = getExerciseSummaries();
 
   return (
     <div className="space-y-8">
@@ -100,10 +98,7 @@ export default function DailyRoutinePage() {
 
       <AddExerciseWidget
         exerciseInputs={exerciseInputs}
-        exerciseSummaries={exerciseSummaries}
-        onExerciseAdded={(newInput) => {
-          setExerciseInputs([...exerciseInputs, newInput]);
-        }}
+        onExerciseAdded={() => {}} // Empty callback since we're using saveLog for state updates
       />
 
       <ExerciseHistoryWidget />
