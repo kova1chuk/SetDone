@@ -86,13 +86,16 @@ export default function DailyRoutinePage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold text-gray-900">Today's Workout</h2>
-        <p className="text-gray-600">
+    <div className="max-w-7xl mx-auto px-2 py-4 space-y-8">
+      <div className="flex flex-col items-center text-center space-y-1 pb-2">
+        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+          Today's Workout
+        </h2>
+        <p className="text-gray-500 text-base">
           Stay consistent. Log your progress below.
         </p>
       </div>
+      <div className="border-b border-gray-200 mb-2" />
 
       <AlreadyDoneWidget
         exerciseInputs={exerciseInputs}
