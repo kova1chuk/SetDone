@@ -77,14 +77,12 @@ export function ExerciseCard({
               <input
                 type="number"
                 min="0"
-                value={value}
+                value={value || ""}
+                placeholder={type === "reps" ? "reps" : "sec"}
                 onChange={(e) => onValueChange(parseInt(e.target.value) || 0)}
                 className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
                 disabled={isSaving}
               />
-              <span className="text-gray-500 text-lg">
-                {type === "reps" ? "reps" : "sec"}
-              </span>
               <button
                 onClick={onAdd}
                 disabled={value <= 0 || isSaving}
