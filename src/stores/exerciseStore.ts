@@ -5,7 +5,7 @@ import { useAuthStore } from "./authStore";
 import { getExercises as getLocalExercises, upsertExercise } from "../db";
 import { clearLocalDb } from "../db/clearLocalDb";
 
-interface Exercise {
+export interface Exercise {
   id: string;
   name: string;
   type: "reps" | "time";
