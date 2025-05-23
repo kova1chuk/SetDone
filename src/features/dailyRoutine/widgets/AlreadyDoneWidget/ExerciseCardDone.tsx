@@ -27,7 +27,17 @@ export function ExerciseCardDone({
   return (
     <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
       <div className="flex flex-col items-center text-center space-y-2">
-        {exercise.icon && <span className="text-4xl">{exercise.icon}</span>}
+        {exercise.iconSvg ? (
+          <img
+            src={`data:image/svg+xml;utf8,${encodeURIComponent(
+              exercise.iconSvg
+            )}`}
+            alt={`${exercise.name} icon`}
+            className="w-12 h-12"
+          />
+        ) : exercise.icon ? (
+          <span className="text-4xl">{exercise.icon}</span>
+        ) : null}
         <div className="flex items-end justify-center space-x-2">
           <h3 className="font-medium text-lg">{exercise.name}</h3>
           <p className="text-sm text-gray-500 mb-1">({input.unit})</p>

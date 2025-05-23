@@ -10,6 +10,7 @@ export interface Exercise {
   name: string;
   type: "reps" | "time";
   icon?: string;
+  iconSvg?: string;
   isRecommended?: boolean;
 }
 
