@@ -100,7 +100,7 @@ export default function HistoryPage() {
                 </button>
               </div>
               <div className="flex flex-col gap-2">
-                {selectedLog.exercises.map((exercise) => {
+                {selectedLog.exercises.map((exercise, index) => {
                   const exerciseInfo = userExercises.find(
                     (e) => e.id === exercise.exerciseId
                   );
@@ -108,7 +108,7 @@ export default function HistoryPage() {
 
                   return (
                     <div
-                      key={exercise.exerciseId}
+                      key={`${exercise.exerciseId}-${index}`}
                       className="flex items-center justify-between p-2 bg-gray-50 rounded"
                     >
                       <div className="flex items-center gap-2">

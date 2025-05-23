@@ -1,6 +1,8 @@
+import React, { useMemo } from "react";
 import { useExerciseStore } from "../../../../stores/exerciseStore";
 import { ExerciseCardDone } from "./ExerciseCardDone";
 
+/* ────── domain types ────── */
 interface ExerciseInput {
   exerciseId: string;
   value: number;
@@ -14,11 +16,10 @@ interface ExerciseSummary {
   unit: "reps" | "seconds";
 }
 
-function EmptyState() {
-  return (
-    <p className="text-gray-500 text-center py-4">No exercises completed yet</p>
-  );
-}
+/* ────── fallback UI ────── */
+const EmptyState = () => (
+  <p className="text-gray-500 text-center py-4">No exercises completed yet</p>
+);
 
 interface AlreadyDoneWidgetProps {
   exerciseInputs: ExerciseInput[];
@@ -26,52 +27,74 @@ interface AlreadyDoneWidgetProps {
 }
 
 export default function AlreadyDoneWidget({
-  exerciseInputs,
-  exerciseSummaries,
+  exerciseInputs = [],
+  exerciseSummaries = [],
 }: AlreadyDoneWidgetProps) {
-  const { userExercises } = useExerciseStore();
+  /*───────────────────────────────────────────────────────────────
+    1.  Pull the *only* slice we need from the global store
+  ───────────────────────────────────────────────────────────────*/
+  const userExercises = useExerciseStore((s) => s.userExercises);
 
-  const groupedInputs = Array.from(
-    exerciseInputs
-      .reduce((acc, input) => {
-        if (!acc.has(input.exerciseId)) {
-          acc.set(input.exerciseId, { ...input });
-        } else {
-          acc.get(input.exerciseId)!.value += input.value;
-        }
-        return acc;
-      }, new Map<string, ExerciseInput>())
-      .values()
-  );
+  /*───────────────────────────────────────────────────────────────
+    2.  Collapse duplicate inputs → O(N)
+  ───────────────────────────────────────────────────────────────*/
+  const groupedInputs = useMemo(() => {
+    const map = new Map<string, ExerciseInput>();
 
-  console.log(exerciseInputs, groupedInputs);
+    for (const { exerciseId, value, unit } of exerciseInputs) {
+      const existing = map.get(exerciseId);
+      if (existing) {
+        existing.value += value;
+      } else {
+        map.set(exerciseId, { exerciseId, value, unit });
+      }
+    }
+    return Array.from(map.values());
+  }, [exerciseInputs]);
+
+  /*───────────────────────────────────────────────────────────────
+    3.  Pre-index look-ups → O(1) in render loop
+  ───────────────────────────────────────────────────────────────*/
+  const exerciseById = useMemo(() => {
+    const m = new Map<string, (typeof userExercises)[number]>();
+    for (const e of userExercises) m.set(e.id, e);
+    return m;
+  }, [userExercises]);
+
+  const summaryById = useMemo(() => {
+    const m = new Map<string, ExerciseSummary>();
+    for (const s of exerciseSummaries) m.set(s.exerciseId, s);
+    return m;
+  }, [exerciseSummaries]);
+
+  /*───────────────────────────────────────────────────────────────
+    4.  Build the vnode array once ⇒ zero logic in JSX
+  ───────────────────────────────────────────────────────────────*/
+  const cards = useMemo(() => {
+    return groupedInputs
+      .map((input) => {
+        const exercise = exerciseById.get(input.exerciseId);
+        if (!exercise) return null; // defensive: data out of sync
+        return (
+          <ExerciseCardDone
+            key={exercise.id}
+            exercise={exercise}
+            input={input}
+            summary={summaryById.get(exercise.id)}
+          />
+        );
+      })
+      .filter(Boolean) as React.ReactElement[];
+  }, [groupedInputs, exerciseById, summaryById]);
+
+  /*───────────────────────────────────────────────────────────────
+    5.  Pure render – JSX is now declarative only
+  ───────────────────────────────────────────────────────────────*/
+  if (!cards.length) return <EmptyState />;
 
   return (
-    <div className="space-y-4">
-      {/* <h3 className="text-xl font-semibold text-gray-800">Already Done</h3> */}
-      {exerciseInputs.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {groupedInputs.map((input) => {
-            const exercise = userExercises.find(
-              (e) => e.id === input.exerciseId
-            );
-            if (!exercise) return null;
-            const summary = exerciseSummaries.find(
-              (s) => s.exerciseId === exercise.id
-            );
-            return (
-              <ExerciseCardDone
-                key={exercise.id}
-                exercise={exercise}
-                input={input}
-                summary={summary}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <EmptyState />
-      )}
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      {cards}
     </div>
   );
 }

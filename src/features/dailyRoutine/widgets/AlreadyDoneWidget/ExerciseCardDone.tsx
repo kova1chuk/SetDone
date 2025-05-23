@@ -24,6 +24,7 @@ export function ExerciseCardDone({
   input,
   summary,
 }: ExerciseCardDoneProps) {
+  console.log("re");
   return (
     <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
       <div className="flex flex-col items-center text-center space-y-2">

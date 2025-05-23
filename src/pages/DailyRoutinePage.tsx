@@ -44,10 +44,10 @@ export default function DailyRoutinePage() {
           unit: exercise.unit,
         }))
       );
-    } else if (userExercises.length > 0) {
+    } else {
       setExerciseInputs([]);
     }
-  }, [currentLog, userExercises]);
+  }, [currentLog]);
 
   const exerciseSummaries = useMemo(() => {
     const summaries: Record<string, ExerciseSummary> = {};
