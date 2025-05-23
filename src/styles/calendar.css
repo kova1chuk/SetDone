@@ -1,0 +1,98 @@
+/* Calendar navigation arrows - only arrows, not label */
+.react-calendar__navigation__arrow {
+  background: #f3f4f6;
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1.3rem;
+  color: #059669;
+  border: none;
+  margin: 0 0.15rem;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.react-calendar__navigation__arrow:enabled:hover {
+  background: #d1fae5;
+  color: #047857;
+}
+
+/* Month/year label styling */
+.react-calendar__navigation__label {
+  background: none !important;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #059669;
+  border-radius: 0;
+  margin: 0 0.5rem;
+  padding: 0.2rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+/* Center navigation bar */
+.react-calendar__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Days as circles */
+.react-calendar__tile {
+  border-radius: 9999px !important;
+  height: 2.5rem;
+  width: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.15rem;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Selected day: rounded, light background, dark text, with space from border */
+.react-calendar__tile--active,
+.react-calendar__tile--now.react-calendar__tile--active {
+  background: #e0e7ef !important; /* light blue/gray */
+  color: #1e293b !important; /* dark text */
+  border-radius: 9999px !important;
+  box-shadow: 0 0 0 3px #fff inset;
+  border: 2px solid #3b82f6 !important; /* blue border for selection */
+  z-index: 1;
+}
+
+/* Today (not selected): subtle border, with space from background */
+.react-calendar__tile--now {
+  border: 2px solid #059669;
+  color: #059669;
+  background: #fff;
+  box-shadow: 0 0 0 3px #e0e7ef inset;
+}
+
+/* Day-of-week labels centered */
+.react-calendar__month-view__weekdays__weekday {
+  text-align: center;
+  font-weight: 500;
+  padding: 0.2rem 0;
+}
+
+/* Clear Day button improvements (override Tailwind if needed) */
+.clear-day-btn {
+  background: #f87171 !important;
+  color: #fff !important;
+  border-radius: 9999px !important;
+  padding: 0.5rem 1.25rem !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px 0 rgba(220, 38, 38, 0.08);
+  transition: background 0.2s;
+}
+.clear-day-btn:hover:enabled {
+  background: #ef4444 !important;
+}

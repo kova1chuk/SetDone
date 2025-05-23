@@ -1,3 +1,5 @@
+import "../styles/calendar.css";
+
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
@@ -36,6 +38,12 @@ export default function HistoryPage() {
 
   const selectedLog = getSelectedDateLog();
 
+  // Helper to check if selectedDate is today (ignoring time)
+  const isToday =
+    selectedDate &&
+    DateTime.fromJSDate(selectedDate).toFormat("yyyy-MM-dd") ===
+      DateTime.now().toFormat("yyyy-MM-dd");
+
   const handleClearHistory = async () => {
     if (!selectedDate) return;
     if (
@@ -65,11 +73,21 @@ export default function HistoryPage() {
 
       <div className="grid grid-cols-1 gap-6">
         <div className="bg-white p-4 rounded-lg shadow">
+          {!isToday && (
+            <div className="flex justify-center mb-2">
+              <button
+                onClick={() => setSelectedDate(new Date())}
+                className="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-emerald-700 transition-colors text-sm font-semibold shadow"
+              >
+                Go to Today
+              </button>
+            </div>
+          )}
           <Calendar
             onChange={(value) => setSelectedDate(value as Date)}
             value={selectedDate}
             tileClassName={getTileClassName}
-            className="w-full"
+            className="w-full workout-calendar"
           />
         </div>
 
@@ -85,7 +103,7 @@ export default function HistoryPage() {
                 <button
                   onClick={handleClearHistory}
                   disabled={isClearing}
-                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                  className="clear-day-btn disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isClearing ? (
                     <>
