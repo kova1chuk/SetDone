@@ -7,13 +7,13 @@ import type { ExerciseInput } from "./types";
 
 interface AddExerciseWidgetProps {
   exerciseInputs: ExerciseInput[];
-  onExerciseAdded: (newInput: ExerciseInput) => void;
+  // onExerciseAdded: (newInput: ExerciseInput) => void;
 }
 
 export default function AddExerciseWidget({
   exerciseInputs,
-  onExerciseAdded,
-}: AddExerciseWidgetProps) {
+}: // onExerciseAdded,
+AddExerciseWidgetProps) {
   const { userExercises } = useExerciseStore();
   const { saveLog } = useWorkoutLogStore();
   const [selectedExercise, setSelectedExercise] = useState<string | null>(null);

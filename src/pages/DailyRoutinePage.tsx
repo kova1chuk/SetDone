@@ -98,7 +98,7 @@ export default function DailyRoutinePage() {
 
       <AddExerciseWidget
         exerciseInputs={exerciseInputs}
-        onExerciseAdded={() => {}} // Empty callback since we're using saveLog for state updates
+        // onExerciseAdded={() => {}} // Empty callback since we're using saveLog for state updates
       />
 
       <ExerciseHistoryWidget />
