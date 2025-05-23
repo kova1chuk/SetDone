@@ -27,18 +27,22 @@ export function ExerciseCard({
 
   return (
     <div
-      className={`bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow ${
+      className={`bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer ${
         isSelected ? "ring-2 ring-blue-500" : ""
       }`}
+      onClick={onClick}
     >
       <div className="flex justify-between">
-        <div className="flex items-center space-x-4" onClick={onClick}>
+        <div className="flex items-center space-x-4">
           <span className="text-4xl">{icon}</span>
           <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
         </div>
 
         {isSelected && (
-          <div className="flex flex-col items-end space-y-2">
+          <div
+            className="flex flex-col items-end space-y-2"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => handleIncrement(-1)}
