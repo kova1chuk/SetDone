@@ -11,6 +11,7 @@ export default function ExerciseLibraryPage() {
     fetchExercisesLib,
     fetchUserExercises,
     addLibExerciseToUser,
+    removeUserExercise,
   } = useExerciseStore();
 
   useEffect(() => {
@@ -55,36 +56,26 @@ export default function ExerciseLibraryPage() {
             {availableExercises.map((exercise) => (
               <div
                 key={exercise.id}
-                className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow"
+                className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow flex flex-col items-center text-center"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    {exercise.iconSvg ? (
-                      <img
-                        src={`data:image/svg+xml;utf8,${encodeURIComponent(
-                          exercise.iconSvg
-                        )}`}
-                        alt={`${exercise.name} icon`}
-                        className="w-8 h-8"
-                      />
-                    ) : (
-                      <span className="text-2xl">{exercise.icon}</span>
-                    )}
-                    <div>
-                      <h3 className="font-medium">{exercise.name}</h3>
-                      <p className="text-sm text-gray-500">
-                        Type:{" "}
-                        {exercise.type === "reps" ? "Repetitions" : "Time"}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => addLibExerciseToUser(exercise)}
-                    className="text-blue-600 hover:text-blue-800 transition-colors"
-                  >
-                    Add to My List
-                  </button>
-                </div>
+                <h3 className="font-medium text-lg mb-2">{exercise.name}</h3>
+                {exercise.iconSvg ? (
+                  <img
+                    src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                      exercise.iconSvg
+                    )}`}
+                    alt={`${exercise.name} icon`}
+                    className="w-32 h-32 mb-2"
+                  />
+                ) : (
+                  <span className="text-6xl mb-2">{exercise.icon}</span>
+                )}
+                <button
+                  onClick={() => addLibExerciseToUser(exercise)}
+                  className="mt-2 bg-green-100 text-green-700 px-4 py-2 rounded-lg hover:bg-green-200 transition-colors text-base font-medium"
+                >
+                  Add to My List
+                </button>
               </div>
             ))}
           </div>
@@ -103,27 +94,38 @@ export default function ExerciseLibraryPage() {
             {userExercises.map((exercise) => (
               <div
                 key={exercise.id}
-                className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow"
+                className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow flex flex-col items-center text-center"
               >
-                <div className="flex items-center space-x-3">
-                  {exercise.iconSvg ? (
-                    <img
-                      src={`data:image/svg+xml;utf8,${encodeURIComponent(
-                        exercise.iconSvg
-                      )}`}
-                      alt={`${exercise.name} icon`}
-                      className="w-8 h-8"
-                    />
-                  ) : (
-                    <span className="text-2xl">{exercise.icon}</span>
-                  )}
-                  <div>
-                    <h3 className="font-medium">{exercise.name}</h3>
-                    <p className="text-sm text-gray-500">
-                      Type: {exercise.type === "reps" ? "Repetitions" : "Time"}
-                    </p>
-                  </div>
-                </div>
+                <h3 className="font-bold text-2xl mb-2 text-green-700">
+                  {exercise.name}
+                </h3>
+                {exercise.iconSvg ? (
+                  <img
+                    src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                      exercise.iconSvg
+                    )}`}
+                    alt={`${exercise.name} icon`}
+                    className="w-16 h-16 mb-2"
+                  />
+                ) : (
+                  <span className="text-4xl mb-2">{exercise.icon}</span>
+                )}
+                <button
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        `Remove ${exercise.name} from My Exercises?`
+                      )
+                    ) {
+                      if (typeof removeUserExercise === "function") {
+                        removeUserExercise(exercise.id);
+                      }
+                    }
+                  }}
+                  className="mt-2 bg-red-100 text-red-700 px-4 py-2 rounded-lg hover:bg-red-200 transition-colors text-base font-medium"
+                >
+                  Remove
+                </button>
               </div>
             ))}
           </div>

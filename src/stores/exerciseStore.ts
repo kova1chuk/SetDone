@@ -24,6 +24,7 @@ interface ExerciseStore {
   fetchUserExercises: () => Promise<void>;
   addUserExercise: (exercise: Exercise) => Promise<void>;
   addLibExerciseToUser: (exercise: Exercise) => Promise<void>;
+  removeUserExercise: (exerciseId: string) => Promise<void>;
   reset: () => void;
 }
 
@@ -166,6 +167,26 @@ export const useExerciseStore = create<ExerciseStore>((set) => ({
           err instanceof Error
             ? err.message
             : "Failed to add library exercise to user",
+        isLoading: false,
+      });
+    }
+  },
+  removeUserExercise: async (exerciseId) => {
+    set({ isLoading: true, error: null });
+    try {
+      const user = useAuthStore.getState().user;
+      if (!user) throw new Error("Not authenticated");
+      const colRef = collection(db, "users", user.uid, "exercises");
+      const docRef = doc(colRef, exerciseId);
+      await setDoc(docRef, {}, { merge: false }); // Remove the document
+      set((state) => ({
+        userExercises: state.userExercises.filter((ex) => ex.id !== exerciseId),
+        isLoading: false,
+      }));
+    } catch (err) {
+      set({
+        error:
+          err instanceof Error ? err.message : "Failed to remove user exercise",
         isLoading: false,
       });
     }
