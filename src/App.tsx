@@ -2,7 +2,12 @@ import "./App.css";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 import { Header } from "./components/Header";
 import { Navigation } from "./components/Navigation";
@@ -20,7 +25,7 @@ import { useWorkoutLogStore } from "./stores/workoutLogStore";
 function App() {
   const { fetchExercisesLib } = useExerciseStore();
   const { fetchAllLogs } = useWorkoutLogStore();
-  const { user, setUser } = useAuthStore();
+  const { user, setUser, loading: isUserLoading } = useAuthStore();
 
   // uploadExercises();
 
@@ -36,6 +41,8 @@ function App() {
     fetchExercisesLib();
     fetchAllLogs();
   }, [fetchExercisesLib, fetchAllLogs]);
+
+  console.log(user);
 
   return (
     <Router>
@@ -58,10 +65,12 @@ function App() {
                       />
                       <Route path="/history" element={<HistoryPage />} />
                     </Routes>
-                  ) : (
+                  ) : isUserLoading ? (
                     <div className="flex items-center justify-center h-64">
                       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
                     </div>
+                  ) : (
+                    <Navigate to="/signin" />
                   )
                 }
               />
