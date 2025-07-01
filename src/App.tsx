@@ -56,7 +56,7 @@ function App() {
               <Route
                 path="/*"
                 element={
-                  user ? (
+                  user && !isUserLoading ? (
                     <Routes>
                       <Route path="/" element={<DailyRoutinePage />} />
                       <Route
